@@ -19,7 +19,7 @@ async def on_message(message):
                               host=os.getenv('HOST'),
                               database=os.getenv('DATABASE'))
         cursor = cnx.cursor()
-        query = ("SELECT quote, username FROM mybb_inplayquotes LEFT JOIN mybb_users ON mybb_users.uid = mybb_inplayquotes.uid ORDER BY RAND() WHERE uid IN (SELECT uid FROM mybb_users) LIMIT 1")
+        query = ("SELECT quote, username FROM mybb_inplayquotes LEFT JOIN mybb_users ON mybb_users.uid = mybb_inplayquotes.uid WHERE uid IN(SELECT uid FROM mybb_users) ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         for quote, username in cursor:
             if username != None:
