@@ -23,7 +23,7 @@ async def on_message(message):
         cursor.execute(query)
         for quote, uid in cursor:
           user = cnx.cursor()
-          userquery = ("SELECT username FROM mybb_users WHERE uid = 'uid')
+          userquery = ("SELECT username FROM mybb_users WHERE uid = 'uid'")
           for username in user:
             msg = "\"{}\" - {}".format(quote, username)
             await client.send_message(message.channel, msg)
