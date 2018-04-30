@@ -5,20 +5,6 @@ import os
 
 client = discord.Client()
 
-# connect to database
-
-try:
-  cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
-                              host=os.getenv('HOST'),
-                              database=os.getenv('DATABASE'))
-except mysql.connector.Error as err:
-  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-    print("Something is wrong with your user name or password")
-  elif err.errno == errorcode.ER_BAD_DB_ERROR:
-    print("Database does not exist")
-  else:
-    print(err)
-
 @client.event
 async def on_message(message):
     # we do not want the bot to reply to itself
@@ -29,9 +15,16 @@ async def on_message(message):
         msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
     if message.content.startswith('!quote'):
-        quote = 'Hallo ich bin ein Test'
-        msg = quote.format(message)
-        await client.send_message(message.channel, msg)
+        cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
+                              host=os.getenv('HOST'),
+                              database=os.getenv('DATABASE'))
+        cursor = cnx.cursor()
+        query = ("SELECT quote FROM mybb_inplayquotes LIMIT 1 ORDER BY rand()")
+        cursor.execute(query)
+        for quote in cursor:
+          msg = quote.format(message)
+          await client.send_message(message.channel, msg)
+        cnx.close()
 
 
 @client.event
