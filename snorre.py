@@ -33,9 +33,9 @@ async def on_message(message):
         cursor = cnx.cursor()
         query = ("SELECT COUNT(*) AS ipcount FROM mybb_posts LEFT JOIN mybb_threads ON mybb_posts.tid = mybb_threads.tid WHERE mybb_threads.partners != ''")
         cursor.execute(query)
-        ipcount = cursor.fetchone()
-        msg = "Das Forum zählt aktuell {} Inplayposts!".format(ipcount)
-        await client.send_message(message.channel, msg)
+        for ipcount in cursor:
+            msg = "Das Forum zählt aktuell {} Inplayposts!".format(ipcount)
+            await client.send_message(message.channel, msg)
         cnx.close()
 
 @client.event
