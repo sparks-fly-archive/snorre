@@ -22,7 +22,7 @@ async def on_message(message):
         query = ("SELECT quote FROM mybb_inplayquotes ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         for quote in cursor:
-          msg = 'quote'.format(message)
+          msg = '{quote}'.format(message)
           await client.send_message(message.channel, msg)
         cnx.close()
 
