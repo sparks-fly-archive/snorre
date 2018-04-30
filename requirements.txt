@@ -1,2 +1,2 @@
 discord.py[voice]
-mysql.connector
+mysql-connector-python-rf
