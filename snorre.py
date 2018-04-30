@@ -19,7 +19,7 @@ async def on_message(message):
                               host=os.getenv('HOST'),
                               database=os.getenv('DATABASE'))
         cursor = cnx.cursor()
-        query = ("SELECT quote FROM mybb_inplayquotes ORDER BY RAND() LIMIT 1")
+        query = ("SELECT quote FROM mybb_inplayquotes WHERE uid IN ('SELECT uid FROM mybb_users') ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         for quote in cursor:
           await client.send_message(message.channel, quote)
