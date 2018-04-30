@@ -12,14 +12,14 @@ async def on_message(message):
         return
 
     if message.content.startswith('!hello'):
-        msg = 'Hello {0.author.mention}'
+        msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
     if message.content.startswith('!quote'):
         cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
                               host=os.getenv('HOST'),
                               database=os.getenv('DATABASE'))
         cursor = cnx.cursor()
-        query = ("SELECT quote FROM mybb_inplayquotes WHERE uid IN ('SELECT uid FROM mybb_users') ORDER BY RAND() LIMIT 1")
+        query = ("SELECT quote FROM mybb_inplayquotes ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         for quote in cursor:
           await client.send_message(message.channel, quote)
