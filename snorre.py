@@ -8,7 +8,7 @@ client = discord.Client()
 # connect to database
 
 try:
-cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
+  cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
                               host=os.getenv('HOST'),
                               database=os.getenv('DATABASE'))
 except mysql.connector.Error as err:
