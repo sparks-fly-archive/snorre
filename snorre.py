@@ -1,5 +1,6 @@
 import discord
 import mysql.connector
+import os
 
 client = discord.Client()
 
@@ -22,4 +23,4 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
-client.run('TOKEN')
+client.run(os.getenv('TOKEN'))
