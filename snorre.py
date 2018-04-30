@@ -24,7 +24,7 @@ async def on_message(message):
         for quote, username in cursor:
             if username:
                 msg = "\"{}\" - {}".format(quote, username)
-                await client.send_message(message.channel, msg)
+                await client.send_message(message.channel, quote)
         cnx.close()
 
 
