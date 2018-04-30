@@ -22,8 +22,9 @@ async def on_message(message):
         query = ("SELECT quote, username FROM mybb_inplayquotes LEFT JOIN mybb_users ON mybb_users.uid = mybb_inplayquotes.uid ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         for quote, username in cursor:
-            msg = "\"{}\" - {}".format(quote, username)
-            await client.send_message(message.channel, msg)
+            if username not 'None':
+                msg = "\"{}\" - {}".format(quote, username)
+                await client.send_message(message.channel, msg)
         cnx.close()
 
 
