@@ -12,7 +12,7 @@ async def on_message(message):
         return
 
     if message.content.startswith('!hello'):
-        msg = 'Hello {0.author.mention}'.format(message)
+        msg = 'Hello {0.author.mention}'
         await client.send_message(message.channel, msg)
     if message.content.startswith('!quote'):
         cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
