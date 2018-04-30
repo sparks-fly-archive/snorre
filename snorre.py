@@ -22,8 +22,11 @@ async def on_message(message):
         query = ("SELECT quote, uid FROM mybb_inplayquotes ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         for quote, uid in cursor:
-          msg = "\"{}\" - {}".format(quote, uid)
-          await client.send_message(message.channel, msg)
+          user = cnx.cursor()
+          userquery = ("SELECT username FROM mybb_users WHERE uid = 'uid')
+          for username in user:
+            msg = "\"{}\" - {}".format(quote, uid)
+            await client.send_message(message.channel, msg)
         cnx.close()
 
 
