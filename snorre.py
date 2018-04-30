@@ -23,7 +23,7 @@ async def on_message(message):
         cursor.execute(query)
         for quote, uid in cursor:
           msg = "\"{}\" - {}".format(quote, uid)
-          await client.send_message(message.channel, quote)
+          await client.send_message(message.channel, msg)
         cnx.close()
 
 
