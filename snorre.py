@@ -19,7 +19,7 @@ async def on_message(message):
                               host=os.getenv('HOST'),
                               database=os.getenv('DATABASE'))
         cursor = cnx.cursor()
-        query = ("SELECT quote FROM mybb_inplayquotes LIMIT 1 ORDER BY rand()")
+        query = ("SELECT quote FROM mybb_inplayquotes ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         for quote in cursor:
           msg = quote.format(message)
