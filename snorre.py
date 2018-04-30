@@ -28,6 +28,13 @@ async def on_message(message):
     if message.content.startswith('!hello'):
         msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
+    if message.content.startswith('!quote'):
+        cursor = cnx.cursor()
+        query = ("SELECT quote FROM mybb_inplayquotes WHERE uid IN('SELECT uid FROM mybb_users') LIMIT 1 ORDER BY rand()")
+        cursor.execute(query)
+        for quote in cursor:
+          msg = quote.format(message)
+          await client.send_message(message.channel, msg)
 
 
 @client.event
