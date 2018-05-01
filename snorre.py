@@ -91,7 +91,7 @@ async def on_message(message):
         cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
                               host=os.getenv('HOST'),
                               database=os.getenv('DATABASE')) 
-        cursor = cnx.cursor()
+        cursor = cnx.cursor(buffered=True)
         name = str(message.content.split()[1])
         cursor.execute("SELECT uid, username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s", (name,))
         for uid, username in cursor:
