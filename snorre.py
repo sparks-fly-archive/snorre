@@ -53,7 +53,6 @@ async def on_message(message):
             dice = str(message.content.split()[1])
         except IndexError:
             pass
-        if dice == None:
             dice = "1d6"
         count = int(dice.split('d')[0])
         eyes = int(dice.split('d')[1])
