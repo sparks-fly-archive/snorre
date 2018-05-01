@@ -74,7 +74,7 @@ async def on_message(message):
         except IndexError:
             pass
             name = "%"
-        query = ("SELECT username FROM mybb_users WHERE username != 'Snorre' LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid2 LIKE '%name%' ORDER BY RAND() LIMIT 1")
+        query = ("SELECT username FROM mybb_users WHERE username != 'Snorre' LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid ORDER BY RAND() LIMIT 1")
         cursor.execute(query)
         username = str(cursor.fetchone()[0])
         await client.send_message(message.channel, username)
