@@ -90,6 +90,7 @@ async def on_message(message):
                               database=os.getenv('DATABASE')) 
         cursor = cnx.cursor(buffered=True)
         usercursor = cnx.cursor(buffered=True)
+        print(message.author)
         name = str(message.content.split()[1])
         msg = "Die letzten Posts von _{}_:".format(name)
         await client.send_message(message.channel, msg)
