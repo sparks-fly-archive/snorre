@@ -49,7 +49,10 @@ async def on_message(message):
     
     # let's dice for fun
     if message.content.startswith('!dice'):
-        dice = str(message.content.split()[1])
+        try:
+            dice = str(message.content.split()[1])
+        except IndexError:
+            continue
         if dice == None:
             dice = "1d6"
         count = int(dice.split('d')[0])
