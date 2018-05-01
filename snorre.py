@@ -98,7 +98,7 @@ async def on_message(message):
         for (uid, username) in cursor:
             uid = str(uid)
             username = str(uid)
-            usercursor.execute("SELECT dateline FROM mybb_posts LEFT JOIN mybb_threads ON mybb_threads.tid = mybb_posts.tid WHERE mybb_threads.tagged != '' AND mybb_posts.uid = %s ORDER BY pid DESC LIMIT 1", (uid,))
+            usercursor.execute("SELECT mybb_posts.dateline FROM mybb_posts LEFT JOIN mybb_threads ON mybb_threads.tid = mybb_posts.tid WHERE mybb_threads.tagged != '' AND mybb_posts.uid = %s ORDER BY pid DESC LIMIT 1", (uid,))
             for dateline in usercursor:
                 dateline = datetime.datetime.fromtimestamp(int(dateline)).strftime('%Y-%m-%d %H:%M:%S')
             msg = "{}: {}".format(username, dateline)
