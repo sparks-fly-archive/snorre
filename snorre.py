@@ -40,9 +40,9 @@ async def on_message(message):
         query = ("SELECT COUNT(*) AS ipcount FROM mybb_posts LEFT JOIN mybb_threads ON mybb_posts.tid = mybb_threads.tid WHERE mybb_threads.partners != ''")
         cursor.execute(query)
         ipcount = str(cursor.fetchone()[0])
-        ipcount.strip("(")
-        ipcount.strip(")")
-        ipcount.strip(",")
+        # ipcount.strip("(")
+        # ipcount.strip(")")
+        # ipcount.strip(",")
         msg = "Das Forum zählt aktuell {} Inplayposts!".format(ipcount)
         await client.send_message(message.channel, msg)
         cnx.close()
@@ -62,6 +62,17 @@ async def on_message(message):
             msg = "Gewürfelte Zahl: {}".format(number)
             await client.send_message(message.channel, msg)
             i += 1
+            
+    # random character does something
+    if message.content.startswith('!someone'):
+        cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
+                              host=os.getenv('HOST'),
+                              database=os.getenv('DATABASE'))  
+        cursor = cnx.cursor()
+        query = ("SELECT username FROM mybb_users WHERE username != 'Snorre' ORDER BY RAND() LIMIT 1")
+        cursor.execute(query)
+        username = str(cursor.fetchone()[0])
+        await client.send_message(message.channel, username)
         
 @client.event
 async def on_ready():
