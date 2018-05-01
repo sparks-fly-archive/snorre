@@ -105,7 +105,7 @@ async def on_message(message):
                 dateline = dateline.strip(",")
                 print(dateline)
                 lastpost = datetime.datetime.fromtimestamp(int(dateline)).strftime('%d.%m.%Y')
-            if dateline != None:
+            if usercursor.fetchone() != None:
                 msg = "{}: {}".format(username, lastpost)
                 await client.send_message(message.channel, msg)
         cnx.close() 
