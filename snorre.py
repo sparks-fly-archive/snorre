@@ -77,7 +77,7 @@ async def on_message(message):
                 name = str(message.content.split()[1])
             except IndexError:
                 pass
-            name = "%" 
+                name = "%" 
         cursor.execute("SELECT username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s AND username != 'Snorre' ORDER BY RAND() LIMIT 1", (name,))
         username = str(cursor.fetchone()[0])
         await client.send_message(message.channel, username)
