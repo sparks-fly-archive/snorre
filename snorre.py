@@ -63,17 +63,21 @@ async def on_message(message):
             await client.send_message(message.channel, msg)
             i += 1
             
-    # random character does something
+    # random character
     if message.content.startswith('!someone'):
         cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
                               host=os.getenv('HOST'),
                               database=os.getenv('DATABASE'))  
         cursor = cnx.cursor()
         try:
-            name = str(message.content.split()[1])
+            name = str(message.content.split()[2])
         except IndexError:
             pass
-            name = "%"
+            try:
+                name = str(message.content.split()[1])
+            except IndexError:
+                pass
+            name = "%" 
         cursor.execute("SELECT username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s AND username != 'Snorre' ORDER BY RAND() LIMIT 1", (name,))
         username = str(cursor.fetchone()[0])
         await client.send_message(message.channel, username)
