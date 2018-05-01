@@ -52,7 +52,7 @@ async def on_message(message):
         try:
             dice = str(message.content.split()[1])
         except IndexError:
-            continue
+            pass
         if dice == None:
             dice = "1d6"
         count = int(dice.split('d')[0])
