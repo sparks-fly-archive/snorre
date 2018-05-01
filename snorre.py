@@ -50,11 +50,13 @@ async def on_message(message):
     # let's dice for fun
     if message.content.startswith('!dice'):
         dice = str(message.content.split()[1])
+        if dice = None:
+            dice = "1d6"
         count = int(dice.split('d')[0])
         eyes = int(dice.split('d')[1])
         i = 0
         while i < count: 
-            number = random.randint(0,eyes)
+            number = random.randint(1,eyes)
             msg = "Gewürfelte Zahl: {}".format(number)
             await client.send_message(message.channel, msg)
             i += 1
