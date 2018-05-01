@@ -71,6 +71,8 @@ async def on_message(message):
         cursor = cnx.cursor()
         try:
             name = str(message.content.split()[2])
+            if name != None:
+                name = "%"
         except IndexError:
             pass
             try:
