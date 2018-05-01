@@ -98,9 +98,10 @@ async def on_message(message):
             usercursor.execute("SELECT mybb_posts.dateline FROM mybb_posts LEFT JOIN mybb_threads ON mybb_threads.tid = mybb_posts.tid WHERE mybb_threads.partners != '' AND mybb_posts.uid = %s ORDER BY pid DESC LIMIT 1", (uid,))
             for dateline in usercursor:
                 dateline = str(dateline)
-                dateline.strip("(")
-                dateline.strip(")")
-                dateline.strip(",")
+                dateline = dateline.strip("(")
+                dateline = dateline.strip(")")
+                dateline = dateline.strip(",")
+                print(dateline)
                 dateline = datetime.datetime.fromtimestamp(int(dateline)).strftime('%Y-%m-%d %H:%M:%S')
             msg = "{}: {}".format(username, dateline)
             await client.send_message(message.channel, msg)
