@@ -91,6 +91,8 @@ async def on_message(message):
         cursor = cnx.cursor(buffered=True)
         usercursor = cnx.cursor(buffered=True)
         name = str(message.content.split()[1])
+        msg = "Die letzten Posts von _{}_:".format(name)
+        await client.send_message(message.channel, msg)
         cursor.execute("SELECT uid, username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s", (name,))
         for (uid, username) in cursor:
             uid = str(uid)
@@ -102,7 +104,7 @@ async def on_message(message):
                 dateline = dateline.strip(")")
                 dateline = dateline.strip(",")
                 print(dateline)
-                dateline = datetime.datetime.fromtimestamp(int(dateline)).strftime('%Y-%m-%d %H:%M:%S')
+                dateline = datetime.datetime.fromtimestamp(int(dateline)).strftime('%d.%m.%Y')
             msg = "{}: {}".format(username, dateline)
             await client.send_message(message.channel, msg)
         cnx.close() 
