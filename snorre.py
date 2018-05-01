@@ -3,6 +3,7 @@ import mysql.connector
 import os
 import re 
 import random
+import datetime
 
 client = discord.Client()
 
@@ -83,6 +84,26 @@ async def on_message(message):
         cursor.execute("SELECT username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s AND username != 'Snorre' ORDER BY RAND() LIMIT 1", (name,))
         username = str(cursor.fetchone()[0])
         await client.send_message(message.channel, username)
+        cnx.close()
+        
+    # last inplay post
+    if message.content.startswith('!lastpost'):
+        cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
+                              host=os.getenv('HOST'),
+                              database=os.getenv('DATABASE')) 
+        cursor = cnx.cursor()
+        name = str(message.content.split()[1])
+        cursor.execute("SELECT uid, username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s", (name,))
+        for str(uid), str(username) in cursor:
+            usercursor = cnx.cursor()
+            usercursor.execute("SELECT dateline FROM mybb_posts LEFT JOIN mybb_threads ON mybb_threads.tid = mybb_posts.tid WHERE mybb_threads.tagged != '' AND mybb_posts.uid = %s ORDER BY pid DESC LIMIT 1", (uid,))
+            for dateline in usercursor:
+                dateline = datetime.datetime.fromtimestamp(
+                        int(dateline)
+                    ).strftime('%Y-%m-%d %H:%M:%S')
+                    msg = "{}: {}".format(username, dateline)
+                    await client.send_message(message.channel, msg)
+        cnx.close() 
         
 @client.event
 async def on_ready():
