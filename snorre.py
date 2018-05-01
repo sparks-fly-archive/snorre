@@ -55,7 +55,7 @@ async def on_message(message):
         i = 0
         while i < count: 
             number = random.randint(0,eyes)
-            msg = "{0.author.mention} {}".format(message, number)
+            msg = "Gewürfelte Zahl: {}".format(number)
             await client.send_message(message.channel, msg)
             i += 1
         
