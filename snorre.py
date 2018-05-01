@@ -2,6 +2,7 @@ import discord
 import mysql.connector
 import os
 import re 
+import random
 
 client = discord.Client()
 
@@ -45,7 +46,19 @@ async def on_message(message):
         msg = "Das Forum zählt aktuell {} Inplayposts!".format(ipcount)
         await client.send_message(message.channel, msg)
         cnx.close()
-
+    
+    # let's dice for fun
+    if message.content.startswith('!dice'):
+        dice = str(message.content.split()[1])
+        count = int(dice.split('d')[0])
+        eyes = int(dice.split('d')[1])
+        i = 0
+        while i < count: 
+            number = random.randint(0,eyes)
+            msg = "{0.author.mention} {}".format(message, number)
+            await client.send_message(message.channel, msg)
+            i += 1
+        
 @client.event
 async def on_ready():
     print('Logged in as')
