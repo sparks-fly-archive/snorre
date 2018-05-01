@@ -94,7 +94,7 @@ async def on_message(message):
         cursor.execute("SELECT uid, username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s", (name,))
         for (uid, username) in cursor:
             uid = str(uid)
-            username = str(uid)
+            username = str(username)
             usercursor.execute("SELECT mybb_posts.dateline FROM mybb_posts LEFT JOIN mybb_threads ON mybb_threads.tid = mybb_posts.tid WHERE mybb_threads.partners != '' AND mybb_posts.uid = %s ORDER BY pid DESC LIMIT 1", (uid,))
             for dateline in usercursor:
                 dateline = str(dateline)
