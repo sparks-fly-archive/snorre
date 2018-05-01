@@ -94,8 +94,10 @@ async def on_message(message):
         cursor = cnx.cursor()
         name = str(message.content.split()[1])
         cursor.execute("SELECT uid, username FROM mybb_users LEFT JOIN mybb_userfields ON mybb_userfields.ufid = mybb_users.uid WHERE fid1 LIKE %s", (name,))
-        for str(uid), str(username) in cursor:
+        for uid, username in cursor:
             usercursor = cnx.cursor()
+            uid = str(uid)
+            username = str(uid)
             usercursor.execute("SELECT dateline FROM mybb_posts LEFT JOIN mybb_threads ON mybb_threads.tid = mybb_posts.tid WHERE mybb_threads.tagged != '' AND mybb_posts.uid = %s ORDER BY pid DESC LIMIT 1", (uid,))
             for dateline in usercursor:
                 dateline = datetime.datetime.fromtimestamp(int(dateline)).strftime('%Y-%m-%d %H:%M:%S')
