@@ -1,8 +1,7 @@
 import discord
 import mysql.connector
-from mysql.connector import errorcode
 import os
-import string
+import re 
 
 client = discord.Client()
 
@@ -12,9 +11,12 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    # dummy message
     if message.content.startswith('!hello'):
         msg = 'Hello {0.author.mention}'.format(message)
         await client.send_message(message.channel, msg)
+    
+    # random inplay quote
     if message.content.startswith('!quote'):
         cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
                               host=os.getenv('HOST'),
@@ -24,9 +26,11 @@ async def on_message(message):
         cursor.execute(query)
         for quote, username in cursor:
             if username != None:
-                msg = "\"{}\" - {}".format(quote, username)
+                msg = "*{}* - {}".format(quote, username)
                 await client.send_message(message.channel, msg)
         cnx.close()
+    
+    # inplay postings count
     if message.content.startswith('!count'):
         cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
                               host=os.getenv('HOST'),
@@ -34,9 +38,9 @@ async def on_message(message):
         cursor = cnx.cursor()
         query = ("SELECT COUNT(*) AS ipcount FROM mybb_posts LEFT JOIN mybb_threads ON mybb_posts.tid = mybb_threads.tid WHERE mybb_threads.partners != ''")
         cursor.execute(query)
-        for ipcount in cursor:
-            msg = "Das Forum zählt aktuell {} Inplayposts!".format(ipcount)
-            await client.send_message(message.channel, msg)
+        ipcount = cursor.fetchone()
+        msg = "Das Forum zählt aktuell {} Inplayposts!".format(ipcount)
+        await client.send_message(message.channel, msg)
         cnx.close()
 
 @client.event
