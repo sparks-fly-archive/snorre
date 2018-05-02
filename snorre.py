@@ -82,7 +82,19 @@ async def on_message(message):
         username = str(cursor.fetchone()[0])
         await client.send_message(message.channel, username)
         cnx.close()
+    
+    # random player name
+    if message.content.startswith('!player'):
+        cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
+                              host=os.getenv('HOST'),
+                              database=os.getenv('DATABASE'))  
+        cursor = cnx.cursor()
         
+        query = ("SELECT DISTINCT fid1 FROM mybb_userfields ORDER BY RAND() LIMIT 1")
+        cursor.execute(query)
+        player = str(cursor.fetchone()[0])
+        await client.send_message(message.channel, player)
+        cnx.close()
     # last inplay post
     if message.content.startswith('!lastpost'):
         cnx = mysql.connector.connect(user=os.getenv('USER'), password=os.getenv('PASS'),
